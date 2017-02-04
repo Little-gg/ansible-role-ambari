@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Little-gg/ansible-role-ambari.png)](https://travis-ci.org/Little-gg/ansible-role-ambari)
+
 Role Name
 =========
 

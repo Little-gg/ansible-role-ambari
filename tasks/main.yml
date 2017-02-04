@@ -1,7 +1,36 @@
 ---
 # tasks file for ambari
 
-- name: download ambari installation packages
-  get_url:
-    url: "{{ ambari_url }}"
+- name: "Build hosts file"
+  lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" state=present
+  when: hostvars[item].ansible_default_ipv4.address is defined
+  with_items: groups['all']
 
+
+- name: download ambari source list
+  get_url:
+    url: "{{ ambari_repo_url }}"
+    dest: /etc/apt/sources.list.d/ambari.list
+
+- name: add apt key
+  shell: apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD
+
+- name: update apt cache
+  apt:
+    update_cache: yes
+
+- name: install Ambari server
+  apt:
+    name: ambari-server
+    state: present
+
+- name: copy setup response file
+  copy:
+    src: ambari-setup.rsp
+    dest: /tmp/ambari-setup.rsp
+
+- name: setup ambari-server
+  shell: ambari-server < /tmp/ambari-setup.rsp
+
+- name: start ambari-server
+  shell: ambari-server start
