@@ -1,2 +1,6 @@
 ---
 # defaults file for ambari
+
+ambari_version: 2.4.2
+ambari_install_package: apache-ambari-{{ ambari_version }}-src.tar.gz
+ambari_url: http://mirrors.hust.edu.cn/apache/ambari/ambari-{{ ambari_version }}/{{ ambari_install_package }}

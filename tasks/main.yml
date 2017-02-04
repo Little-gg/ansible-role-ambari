@@ -1,2 +1,7 @@
 ---
 # tasks file for ambari
+
+- name: download ambari installation packages
+  get_url:
+    url: "{{ ambari_url }}"
+
