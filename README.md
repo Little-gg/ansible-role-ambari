@@ -27,7 +27,7 @@ Example Playbook
 ---
 - hosts: localhost
   roles:
-    - { role: Little-gg.ambari}
+    - { role: Little-gg.ambari }
 ```
 
 License

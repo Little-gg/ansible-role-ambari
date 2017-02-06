@@ -10,6 +10,13 @@
   when: hostvars[item].ansible_default_ipv4.address is defined
   with_items: groups['all']
 
+- name: disable ufw service
+  shell: mv /etc/init/ufw.conf /etc/init/ufw.conf.disabled
+
+- name: disable ufw service temperary
+  service:
+    name: ufw
+    state: absent
 
 - name: download ambari source list
   get_url:
@@ -34,7 +41,7 @@
     dest: /tmp/ambari-setup.rsp
 
 - name: setup ambari-server
-  shell: ambari-server < /tmp/ambari-setup.rsp
+  shell: /usr/sbin/ambari-server setup < /tmp/ambari-setup.rsp
 
 - name: start ambari-server
-  shell: ambari-server start
+  shell: /usr/sbin/ambari-server start
